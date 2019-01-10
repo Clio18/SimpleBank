@@ -7,7 +7,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import static controller.RegistrationServlet.USER_SERVICE;
+import static controller.LoginServlet.USER_SERVICE;
 
 @WebListener
 public class InitAppListener implements ServletContextListener {
