@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BankPayments:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BankPayments_jar</output-path>
+    <root id="archive" name="BankPayments.jar">
+      <element id="module-output" name="BankPayments" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/log4j/log4j/1.2.12/log4j-1.2.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
