@@ -1,6 +1,7 @@
 package controller;
 
 import DAO.UserDAO;
+import service.BankService;
 import util.Validator;
 
 import javax.servlet.ServletConfig;
@@ -15,7 +16,9 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     public static final String USER_SERVICE = "userService";
+    public static final String BANK_SERVICE = "bankService";
     private UserDAO userService;
+    private BankService bankService;
 
     //do not understand!
     @Override
@@ -23,6 +26,8 @@ public class LoginServlet extends HttpServlet {
         super.init(config);
         ServletContext servletContext = config.getServletContext();
         userService = (UserDAO) servletContext.getAttribute(USER_SERVICE);
+        bankService = (BankService)servletContext.getAttribute(BANK_SERVICE);
+    //bankService = (BankService) servletContext.getAttribute(USER_SERVICE);
     }
 
     @Override
@@ -38,7 +43,8 @@ public class LoginServlet extends HttpServlet {
         if (username.isEmpty() && password.isEmpty()) {
             req.getRequestDispatcher("registration.jsp").forward(req, resp);
         } else if (!Validator.isCorrectString(username)) {
-            userService.showAlert(resp, UserDAO.WRONG_LOGIN);
+            req.setAttribute("alert", BankService.WRONG_LOGIN);
+            req.getRequestDispatcher("alert.jsp").forward(req, resp);
         } else if (username.equals("admin") && password.equals("admin")) {
             req.getSession().setAttribute("username", username);
             req.getRequestDispatcher("administrator.jsp").forward(req, resp);

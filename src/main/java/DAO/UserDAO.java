@@ -1,5 +1,7 @@
 package DAO;
 
+import entity.Client;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,10 +14,7 @@ import java.util.List;
 public class UserDAO implements IUserDAO {
     Connection con;
     Statement st;
-    public static final String LOGIN_IS_TAKEN = "This login already taken!";
-    public static final String USER_IS_EXIST = "This client is already exist!";
-    public static final String WRONG_LOGIN = "Wrong login!";
-    public static final String CUREENT_ACCOUNT_REQUEST = "Current account was requested: ";
+
 
     public UserDAO() {
         try {
@@ -89,7 +88,7 @@ public class UserDAO implements IUserDAO {
         return list;
     }
 
-    public void createNewUser(String firstname, String lastname, String login, String password) {
+    public void createNewUser(Client client) {
         ResultSet rs;
         try {
             //validation of string types and not null!!
@@ -99,10 +98,11 @@ public class UserDAO implements IUserDAO {
                     + "(?,?,?,?,?)";
             PreparedStatement prep = con.prepareStatement(sql);
             prep.setInt(1, getLastId());
-            prep.setString(2, firstname);
-            prep.setString(3, lastname);
-            prep.setString(4, login);
-            prep.setString(5, password);
+            prep.setString(2, client.getName());
+            prep.setString(3, client.getLastName());
+            prep.setString(4, client.getLogin());
+            prep.setString(5, client.getPassword());
+            prep.setString(6, client.getType());
             rs = prep.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,33 +126,23 @@ public class UserDAO implements IUserDAO {
         return idNew;
     }
 
-    public boolean hasClient(String firstName, String lastName, String username, String password) {
+    public boolean hasClient(Client client) {
         boolean flag = false;
         ResultSet rs = null;
         try {
             st = con.createStatement();
             String sql = "SELECT * FROM CLIENT WHERE firstName =? AND lastName=? AND login = ? AND password = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, firstName);
-            ps.setString(2, lastName);
-            ps.setString(3, username);
-            ps.setString(4, password);
+            ps.setString(1, client.getName());
+            ps.setString(2, client.getLastName());
+            ps.setString(3, client.getLogin());
+            ps.setString(4, client.getPassword());
             rs = ps.executeQuery();
             flag = rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return flag;
-    }
-
-    public void showAlert(HttpServletResponse resp, String s) throws IOException {
-        PrintWriter writer = resp.getWriter();
-        writer.println("<!DOCTYPE html>");
-        writer.println("<html>");
-        writer.println("<body>");
-        writer.println(s);
-        writer.println("</body>");
-        writer.println("</html>");
     }
 
     public void makeRequestForCurrentAccount(String login, double money) {
@@ -170,8 +160,8 @@ public class UserDAO implements IUserDAO {
             prep.setDouble(2, money);
 
             String date = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
-            String history = UserDAO.CUREENT_ACCOUNT_REQUEST;
-            putHistory(id, history, date);
+            //String history = UserDAO.CUREENT_ACCOUNT_REQUEST;
+            //putHistory(id, history, date);
 
             prep.executeUpdate();
 

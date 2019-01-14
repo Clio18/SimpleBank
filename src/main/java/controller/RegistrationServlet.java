@@ -1,6 +1,8 @@
 package controller;
 
 import DAO.UserDAO;
+import entity.Client;
+import util.Validator;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,15 +27,27 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = req.getParameter("j_lastName");
         String login = req.getParameter("j_login");
         String password = req.getParameter("j_password");
-
-        if (userDAO.hasClient(name, lastName, login, password)) {
-            userDAO.showAlert(resp, UserDAO.USER_IS_EXIST);
-        } else if (userDAO.hasLogin(login)) {
-            userDAO.showAlert(resp, UserDAO.LOGIN_IS_TAKEN);
+        Validator validator = new Validator();
+        Client client = new Client(name, lastName, login, password, "user");
+        if (validator.validation(client).size()!=0){
+            req.setAttribute("alertList", validator.validation(client));
+            req.getRequestDispatcher("alertList.jsp").forward(req,resp);
         } else {
-            userDAO.createNewUser(name, lastName, login, password);
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
+            req.getSession().setAttribute("username", login);
+            req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
         }
+
+
+//        if (userDAO.hasClient(name, lastName, login, password)) {
+//            req.setAttribute("alert", UserDAO.USER_IS_EXIST);
+//            req.getRequestDispatcher("alert.jsp").forward(req, resp);
+//        } else if (userDAO.hasLogin(login)) {
+//            req.setAttribute("alert", UserDAO.LOGIN_IS_TAKEN);
+//            req.getRequestDispatcher("alert.jsp").forward(req, resp);
+//        } else {
+//            userDAO.createNewUser(name, lastName, login, password);
+//            req.getRequestDispatcher("login.jsp").forward(req, resp);
+//        }
     }
 
 }

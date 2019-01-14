@@ -22,7 +22,7 @@
 
           <form method = 'get'>
           <name='username'>
-          <%=request.getParameter("j_username")%>
+          <%=request.getSession().getAttribute("username").toString()%>
           </form>
 
     <ul>
