@@ -6,6 +6,8 @@ public class Client {
     private String login;
     private String password;
     private String type;
+    public final static String ADMIN = "admin";
+    public final static String USER = "user";
 
     public Client(String name, String lastName, String login, String password, String type) {
         this.name = name;

@@ -1,19 +1,41 @@
 package service;
 
+import DAO.AdministratorDAO;
 import DAO.UserDAO;
+import entity.Client;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BankService {
-    public static final String LOGIN_IS_TAKEN = "This login already taken!";
-    public static final String USER_IS_EXIST = "This client is already exist!";
-    public static final String WRONG_LOGIN = "Wrong login!";
-    public static final String CUREENT_ACCOUNT_REQUEST = "Current account was requested: ";
     UserDAO userDAO = new UserDAO();
+    AdministratorDAO administratorDAO = new AdministratorDAO();
 
-    public UserDAO getUserDAO() {
-        return userDAO;
+    public boolean hasLogin(String login) {
+        return userDAO.hasLogin(login);
     }
 
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public void createUser(Client client) {
+        userDAO.createNewUser(client);
+    }
+
+    public List<String> showInfo() {
+        List<String> list = new ArrayList<>();
+        for (Client client:administratorDAO.showInfoForAdmin()){
+            list.add(showUserInfo(client));
+        }
+        return list;
+    }
+
+    public String showUserInfo(Client client) {
+        String info = client.getName() + " " +
+                client.getLastName() + " " +
+                client.getLogin() + " " +
+                client.getPassword() + " " +
+                client.getType();
+        return info;
+    }
+
+    public Client getClient(String login, String password) {
+      return userDAO.getClient(login, password);
     }
 }

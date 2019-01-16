@@ -1,9 +1,11 @@
 package controller;
 
-import DAO.UserDAO;
 import entity.Client;
+import service.BankService;
 import util.Validator;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +16,15 @@ import java.io.IOException;
 
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/user_form")
 public class RegistrationServlet extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
+    public static final String BANK_SERVICE = "bankService";
+    private BankService bankService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ServletContext servletContext = config.getServletContext();
+        bankService = (BankService) servletContext.getAttribute(BANK_SERVICE);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,31 +33,20 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("j_name");
-        String lastName = req.getParameter("j_lastName");
-        String login = req.getParameter("j_login");
-        String password = req.getParameter("j_password");
+        String name = req.getParameter("name");
+        String lastName = req.getParameter("lastName");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
         Validator validator = new Validator();
-        Client client = new Client(name, lastName, login, password, "user");
+        Client client = new Client(name, lastName, login, password, Client.USER);
         if (validator.validation(client).size()!=0){
             req.setAttribute("alertList", validator.validation(client));
             req.getRequestDispatcher("alertList.jsp").forward(req,resp);
         } else {
+            bankService.createUser(client);
             req.getSession().setAttribute("username", login);
+            req.getSession().setAttribute("client", client);
             req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
         }
-
-
-//        if (userDAO.hasClient(name, lastName, login, password)) {
-//            req.setAttribute("alert", UserDAO.USER_IS_EXIST);
-//            req.getRequestDispatcher("alert.jsp").forward(req, resp);
-//        } else if (userDAO.hasLogin(login)) {
-//            req.setAttribute("alert", UserDAO.LOGIN_IS_TAKEN);
-//            req.getRequestDispatcher("alert.jsp").forward(req, resp);
-//        } else {
-//            userDAO.createNewUser(name, lastName, login, password);
-//            req.getRequestDispatcher("login.jsp").forward(req, resp);
-//        }
     }
-
 }

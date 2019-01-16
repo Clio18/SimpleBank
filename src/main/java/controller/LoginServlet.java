@@ -1,9 +1,8 @@
 package controller;
 
 import DAO.UserDAO;
+import entity.Client;
 import service.BankService;
-import util.Validator;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,19 +14,14 @@ import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-    public static final String USER_SERVICE = "userService";
     public static final String BANK_SERVICE = "bankService";
-    private UserDAO userService;
     private BankService bankService;
 
-    //do not understand!
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         ServletContext servletContext = config.getServletContext();
-        userService = (UserDAO) servletContext.getAttribute(USER_SERVICE);
-        bankService = (BankService)servletContext.getAttribute(BANK_SERVICE);
-    //bankService = (BankService) servletContext.getAttribute(USER_SERVICE);
+        bankService = (BankService) servletContext.getAttribute(BANK_SERVICE);
     }
 
     @Override
@@ -37,22 +31,21 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("j_username");
+        String login = req.getParameter("j_username");
         String password = req.getParameter("j_password");
+        Client client = bankService.getClient(login, password);
 
-        if (username.isEmpty() && password.isEmpty()) {
-            req.getRequestDispatcher("registration.jsp").forward(req, resp);
-        } else if (!Validator.isCorrectString(username)) {
-            req.setAttribute("alert", BankService.WRONG_LOGIN);
-            req.getRequestDispatcher("alert.jsp").forward(req, resp);
-        } else if (username.equals("admin") && password.equals("admin")) {
-            req.getSession().setAttribute("username", username);
+        if (client == null) {
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        } else if (client.getType().equals(Client.ADMIN)) {
+            req.getSession().setAttribute("username", client.getLogin());
+            req.getSession().setAttribute("client", client);
             req.getRequestDispatcher("administrator.jsp").forward(req, resp);
-        } else if (userService.hasUser(username, password)) {
-            req.getSession().setAttribute("username", username);
-            req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
         } else {
-            req.getRequestDispatcher("registration.jsp").forward(req, resp);
+            req.getSession().setAttribute("username", client.getLogin());
+            req.getSession().setAttribute("client", client);
+            req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
         }
+
     }
 }

@@ -1,13 +1,16 @@
 package util;
 
 import entity.Client;
+import service.BankService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Validator {
-     private final static String NAME = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+    private final static String NAME = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
     //from 4 to 8 and at least one digit
     private final static String PASSWORD = "^(?=.*\\d)(?=.*[a-zA-Z]).{4,8}$";
+    BankService bankService = new BankService();
 
     public  static  boolean isCorrectString(String str) {
         return str.matches(NAME);
@@ -23,6 +26,9 @@ public class Validator {
         }
         if (!client.getLogin().matches(NAME)){
             alertList.add("Wrong login!");
+        }
+        if (bankService.hasLogin(client.getLogin())){
+            alertList.add("Login already taken");
         }
         if (!client.getPassword().matches(PASSWORD)){
             alertList.add("Wrong password");

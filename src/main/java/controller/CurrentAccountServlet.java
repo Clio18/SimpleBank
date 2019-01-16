@@ -17,7 +17,7 @@ public class CurrentAccountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getSession().getAttribute("username").toString();
         double money = Double.parseDouble(req.getParameter("money"));
-        userDAO.makeRequestForCurrentAccount(login, money);
+        //userDAO.makeRequestForCurrentAccount(login, money);
     }
 
 }

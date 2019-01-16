@@ -4,7 +4,7 @@
        <html>
         <head>
               <meta http-equiv = "Content-Type" content = "text/html; charset=UTF-8">
-              <title>Login Page </title>
+              <title>Show User Page </title>
         </head>
         <body>
               <font size = '4' color = 'blue'>
@@ -19,6 +19,7 @@
   </c:forEach>
 </table>
 
+ <p><a href="mainPage.jsp">Return</a></p>
 
 
        </body>

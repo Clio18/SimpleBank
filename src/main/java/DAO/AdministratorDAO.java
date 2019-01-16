@@ -1,5 +1,7 @@
 package DAO;
 
+import entity.Client;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,22 +21,22 @@ public class AdministratorDAO implements IUserDAO {
         }
     }
 
-    @Override
-    public List<String> showInfo() {
-        List<String> list = new ArrayList<>();
-        String info = null;
+
+    public List<Client> showInfoForAdmin() {
+        List<Client> list = new ArrayList<>();
+        Client client = null;
         ResultSet rs;
         try {
             st = con.createStatement();
             String sql = "SELECT * FROM CLIENT";
             rs = st.executeQuery(sql);
             while (rs.next()) {
-                info = rs.getString("id") + " "
-                        + rs.getString("firstname") + " "
-                        + rs.getString("lastname") + " "
-                        + rs.getString("login") + " "
-                        + rs.getString("password");
-                list.add(info);
+                client = new Client(rs.getString("firstname"),
+                        rs.getString("lastname"),
+                        rs.getString("login"),
+                        rs.getString("password"),
+                        rs.getString("type"));
+                list.add(client);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,8 +44,4 @@ public class AdministratorDAO implements IUserDAO {
         return list;
     }
 
-    @Override
-    public boolean hasUser(String username, String password) {
-        return false;
-    }
 }

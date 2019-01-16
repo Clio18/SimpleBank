@@ -1,42 +1,43 @@
 package controller;
 
-import DAO.AdministratorDAO;
-import DAO.UserDAO;
+import entity.Client;
+import service.BankService;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @WebServlet(name = "showServlet", urlPatterns = "/show")
 public class ShowServlet extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
-    private AdministratorDAO adminDAO = new AdministratorDAO();
+    public static final String BANK_SERVICE = "bankService";
+    private BankService bankService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getSession().getAttribute("username").toString();
-        System.out.print("show ");
-        System.out.println(login);
-
-        if(login.equals("admin")){
-            List<String> info = adminDAO.showInfo();
-            req.setAttribute("info", info);
-            req.getRequestDispatcher("show.jsp").forward(req, resp);
-        }else {
-            List<String> info = userDAO.showUserInfo(login);
-            req.setAttribute("info", info);
-            req.getRequestDispatcher("show.jsp").forward(req, resp);
-        }
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ServletContext servletContext = config.getServletContext();
+        bankService = (BankService) servletContext.getAttribute(BANK_SERVICE);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Client client = (Client) req.getSession().getAttribute("client");
+        if (client.getType().equals(Client.ADMIN)) {
+            List<String> info = bankService.showInfo();
+            req.setAttribute("info", info);
+            req.getRequestDispatcher("showAdmin.jsp").forward(req, resp);
+        } else {
+            String info = bankService.showUserInfo(bankService.getClient(client.getLogin(), client.getPassword()));
+            req.setAttribute("info", info);
+            req.getRequestDispatcher("showUser.jsp").forward(req, resp);
+        }
     }
 }
