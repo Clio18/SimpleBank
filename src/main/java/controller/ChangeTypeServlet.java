@@ -1,7 +1,7 @@
 package controller;
 
-import entity.Client;
 import service.BankService;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-
-@WebServlet(name = "showServlet", urlPatterns = "/show")
-public class ShowServlet extends HttpServlet {
+@WebServlet(name = "ChangeTypeServlet", urlPatterns = "/changeType")
+public class ChangeTypeServlet extends HttpServlet {
     public static final String BANK_SERVICE = "bankService";
     private BankService bankService;
 
@@ -27,15 +25,13 @@ public class ShowServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Client client = (Client) req.getSession().getAttribute("client");
-        if (client.getType().equals(Client.ADMIN)) {
-            List<String> info = bankService.showInfo();
-            req.setAttribute("info", info);
-            req.getRequestDispatcher("showAdmin.jsp").forward(req, resp);
+        String login = req.getParameter("login");
+        if (bankService.hasLogin(login)) {
+            bankService.changeTypeToAdmin(login);
+            req.getRequestDispatcher("administrator.jsp").forward(req, resp);
         } else {
-            String info = bankService.showUserInfo(bankService.getClient(client.getLogin(), client.getPassword()));
-            req.setAttribute("info", info);
-            req.getRequestDispatcher("showUser.jsp").forward(req, resp);
+            req.getRequestDispatcher("changeType.jsp").forward(req, resp);
         }
     }
+
 }

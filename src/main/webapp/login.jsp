@@ -13,8 +13,8 @@
   <form action = 'login' method = 'post'>
 
             <table>
-              <tr><td>Login: </td><td><input type='text' name='j_username' size='15'></td></tr>
-              <tr><td>Password: </td><td><input type='password' name='j_password' size='15'></td></tr>
+              <tr><td>Login: </td><td><input type='text' name='username' size='15'></td></tr>
+              <tr><td>Password: </td><td><input type='password' name='password' size='15'></td></tr>
             </table>
 
              <form action="/login">

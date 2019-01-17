@@ -1,6 +1,7 @@
 package DAO;
 
 import entity.Client;
+
 import java.sql.*;
 
 public class UserDAO implements IUserDAO {
@@ -31,30 +32,6 @@ public class UserDAO implements IUserDAO {
         }
         return flag;
     }
-
-//    public List<String> showUserInfo(String login) {
-//        List<String> list = new ArrayList<>();
-//        String info = null;
-//        ResultSet rs;
-//        try {
-//            st = con.createStatement();
-//            String sql = "SELECT * FROM CLIENT WHERE login = ?";
-//            PreparedStatement prep = con.prepareStatement(sql);
-//            prep.setString(1, login);
-//            rs = prep.executeQuery();
-//            while (rs.next()) {
-//                info = rs.getString("firstname") + " "
-//                        + rs.getString("lastname") + " "
-//                        + rs.getString("login") + " "
-//                        + rs.getString("password") + " "
-//                        + rs.getString("type");
-//                list.add(info);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
 
     public void createNewUser(Client client) {
         try {
@@ -90,7 +67,8 @@ public class UserDAO implements IUserDAO {
                         rs.getString("lastname"),
                         rs.getString("login"),
                         rs.getString("password"),
-                        rs.getString("type"));
+                        rs.getString("type"),
+                        rs.getInt("id_client"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -98,32 +76,21 @@ public class UserDAO implements IUserDAO {
         return client;
     }
 
+    public void makeRequest(int id, double money) {
+        try {
+            st = con.createStatement();
+            String sql = "INSERT INTO REQUEST"
+                    + "(MONEY, ID_CLIENT) VALUES"
+                    + "(?,?)";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setDouble(1, money);
+            prep.setInt(2, id);
+            prep.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-
-//    public void makeRequestForCurrentAccount(String login, double money) {
-//        ResultSet rs;
-//        try {
-//            st = con.createStatement();
-//            String sql = "INSERT INTO REQUEST"
-//                    + "(ID, MONEY) VALUES"
-//                    + "(?,?)";
-//            int id = getID(login);
-//            System.out.println(id);
-//
-//            PreparedStatement prep = con.prepareStatement(sql);
-//            prep.setInt(1, id);
-//            prep.setDouble(2, money);
-//
-//            String date = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
-//            //String history = UserDAO.CUREENT_ACCOUNT_REQUEST;
-//            //putHistory(id, history, date);
-//
-//            prep.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 //    public void putHistory(int id, String history, String date){
 //        ResultSet rs;
 //        try {

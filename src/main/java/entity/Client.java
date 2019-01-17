@@ -6,15 +6,17 @@ public class Client {
     private String login;
     private String password;
     private String type;
+    private int id;
     public final static String ADMIN = "admin";
     public final static String USER = "user";
 
-    public Client(String name, String lastName, String login, String password, String type) {
+    public Client(String name, String lastName, String login, String password, String type, int id) {
         this.name = name;
         this.lastName = lastName;
         this.login = login;
         this.password = password;
         this.type = type;
+        this.id = id;
     }
 
     public String getName() {
@@ -57,6 +59,14 @@ public class Client {
         this.type = type;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Client: " +
@@ -64,6 +74,7 @@ public class Client {
                 ", last name is " + lastName + '\'' +
                 ", login - " + login + '\'' +
                 ", password - " + password + '\'' +
-                ", type: " + type + '\'';
+                ", type: " + type + '\''  +
+                ", id: " + id + '\'';
     }
 }

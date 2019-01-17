@@ -38,4 +38,17 @@ public class BankService {
     public Client getClient(String login, String password) {
       return userDAO.getClient(login, password);
     }
+
+    public void changeTypeToAdmin(String login) {
+        Client client = administratorDAO.getClient(login);
+        if (client.getType().equals(Client.USER)) {
+            administratorDAO.changeType(login, Client.ADMIN);
+        }else {
+            administratorDAO.changeType(login, Client.USER);
+        }
+    }
+
+    public void putCurrentToRequest(int id, double money) {
+        userDAO.makeRequest(id, money);
+    }
 }

@@ -19,6 +19,7 @@
                 </div>
     <ul>
         <li><a href="/show">Show all users</a></li>
+        <li><a href="changeType.jsp">Change type</a></li>
         <li><a href="/showRequest">Show all requests</a></li>
         <li><a href="payment.jsp">Request operation</a></li>
         <li><a href="login.jsp">Exit</a></li>

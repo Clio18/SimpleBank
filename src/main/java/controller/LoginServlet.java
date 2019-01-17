@@ -3,6 +3,7 @@ package controller;
 import DAO.UserDAO;
 import entity.Client;
 import service.BankService;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,14 +32,13 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("j_username");
-        String password = req.getParameter("j_password");
+        String login = req.getParameter("username");
+        String password = req.getParameter("password");
         Client client = bankService.getClient(login, password);
 
         if (client == null) {
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else if (client.getType().equals(Client.ADMIN)) {
-            req.getSession().setAttribute("username", client.getLogin());
             req.getSession().setAttribute("client", client);
             req.getRequestDispatcher("administrator.jsp").forward(req, resp);
         } else {
