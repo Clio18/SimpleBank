@@ -19,6 +19,14 @@ public class Client {
         this.id = id;
     }
 
+    public Client(String name, String lastName, String login, String password, String type) {
+        this.name = name;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
@@ -70,11 +78,11 @@ public class Client {
     @Override
     public String toString() {
         return "Client: " +
-                "name is " + name + '\'' +
-                ", last name is " + lastName + '\'' +
-                ", login - " + login + '\'' +
-                ", password - " + password + '\'' +
-                ", type: " + type + '\''  +
-                ", id: " + id + '\'';
+                "name is " + name +
+                ", last name is " + lastName +
+                ", login - " + login +
+                ", password - " + password +
+                ", type: " + type +
+                ", id: " + id;
     }
 }

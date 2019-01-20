@@ -37,12 +37,14 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        int id = Integer.parseInt(req.getParameter("id_client"));
-        Validator validator = new Validator();
-        Client client = new Client(name, lastName, login, password, Client.USER, id);
-        if (validator.validation(client).size()!=0){
-            req.setAttribute("alertList", validator.validation(client));
-            req.getRequestDispatcher("alertList.jsp").forward(req,resp);
+
+        Client client = new Client(name, lastName, login, password, Client.USER);
+        if (bankService.validation(client).size() != 0) {
+            req.setAttribute("alertList", bankService.validation(client));
+            req.getRequestDispatcher("alertList.jsp").forward(req, resp);
+        } else if (bankService.hasLogin(client.getLogin())) {
+            req.setAttribute("alertList", "Login already taken");
+            req.getRequestDispatcher("alertList.jsp").forward(req, resp);
         } else {
             bankService.createUser(client);
             req.getSession().setAttribute("username", login);

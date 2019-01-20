@@ -1,10 +1,27 @@
 package entity;
 
 public class Account {
+    private int id;
     private double money;
+    private int id_client;
+    private String type;
 
-    public Account(double money) {
+    public Account(int id, double money, int id_client, String type) {
+        this.id = id;
         this.money = money;
+        this.id_client = id_client;
+        this.type = type;
+    }
+
+    public Account(double money, int id_client, String type) {
+        this.money = money;
+        this.id_client = id_client;
+        this.type = type;
+    }
+
+    public Account(double money, int id_client) {
+        this.money = money;
+        this.id_client = id_client;
     }
 
     public double getMoney() {
@@ -13,5 +30,38 @@ public class Account {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId_client() {
+        return id_client;
+    }
+
+    public void setId_client(int id_client) {
+        this.id_client = id_client;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Account: " +
+                "ID is " + id +
+                ", money ----" + money +
+                "----, id of the client is " + id_client +
+                "type of request is " + type;
     }
 }

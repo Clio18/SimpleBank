@@ -19,6 +19,7 @@
           </table>
                        <button type="submit">Request</button>
           </form>
+          <p><a href="administrator.jsp">Return</a></p>
 
 </body>
 </html>

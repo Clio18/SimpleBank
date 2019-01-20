@@ -11,19 +11,18 @@
         <body>
                <div class="text">
                             <font size = '5' color = 'red'>
-                             ADMINISTRATOR PAGES
+                             ADMINISTRATOR PAGES<br>
+                             REQUEST OPERATIONS
                             </font><br>
                             <font size = '4' color = 'black'>
                      Make a chose:
                              </font><br>
                 </div>
     <ul>
-        <li><a href="/show">Show all users</a></li>
-        <li><a href="changeType.jsp">Change type</a></li>
-        <li><a href="/showRequest">Show all requests</a></li>
-        <li><a href="requestOperation.jsp">Request operation</a></li>
-        <li><a href="login.jsp">Exit</a></li>
-
+        <li><a href="confirm.jsp">Confirm request</a></li>
+        <li><a href="deny.jsp">Deny request</a></li>
     </ul>
+
+    <p><a href="administrator.jsp">Return</a></p>
        </body>
        </html>

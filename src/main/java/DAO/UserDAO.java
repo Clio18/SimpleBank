@@ -1,6 +1,8 @@
 package DAO;
 
+import entity.Account;
 import entity.Client;
+import entity.History;
 
 import java.sql.*;
 
@@ -76,35 +78,39 @@ public class UserDAO implements IUserDAO {
         return client;
     }
 
-    public void makeRequest(int id, double money) {
+    public void makeRequest(Client client, Account account) {
         try {
             st = con.createStatement();
             String sql = "INSERT INTO REQUEST"
-                    + "(MONEY, ID_CLIENT) VALUES"
-                    + "(?,?)";
+                    + "(MONEY, ID_CLIENT, TYPE) VALUES"
+                    + "(?,?,?)";
             PreparedStatement prep = con.prepareStatement(sql);
-            prep.setDouble(1, money);
-            prep.setInt(2, id);
+            prep.setDouble(1, account.getMoney());
+            prep.setInt(2, client.getId());
+            prep.setString(3, account.getClass().getSimpleName());
             prep.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-//    public void putHistory(int id, String history, String date){
-//        ResultSet rs;
-//        try {
-//            st = con.createStatement();
-//            String sql = "INSERT INTO HISTORY"
-//                    + "(ID, HISTORY, DATE) VALUES"
-//                    + "(?,?,?)";
-//            PreparedStatement prep = con.prepareStatement(sql);
-//            prep.setInt(1, id);
-//            prep.setString(2, history);
-//            prep.setString(3, date);
-//            prep.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void writeHistory(History history, String message) {
+        try {
+            st = con.createStatement();
+            String sql = "INSERT INTO HISTORY"
+                    + "(ACCOUNT_TYPE, MONEY, ID_CLIENT, DATE, MESSAGE) VALUES"
+                    + "(?,?,?,?,?)";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setString(1, history.getAccount_type());
+            prep.setDouble(2, history.getMoney());
+            prep.setInt(3, history.getId_client());
+            prep.setString(4, history.getDate());
+            prep.setString(5, message);
+            prep.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
