@@ -16,7 +16,7 @@ import java.util.List;
 
 public class BankService {
     public static String CURRENT_REQUEST_MESSAGE = "Current request created";
-
+    public static String APPROVAL_MESSAGE = "Current request is approved";
     UserDAO userDAO = new UserDAO();
     AdministratorDAO administratorDAO = new AdministratorDAO();
     ValidatorID validatorID = new ValidatorID();
@@ -33,20 +33,32 @@ public class BankService {
     public List<String> showInfo() {
         List<String> list = new ArrayList<>();
         for (Client client : administratorDAO.showInfoForAdmin()) {
-            list.add(showUserInfo(client));
+            list.add(client.toString());
         }
         return list;
     }
 
-    public <T> String showUserInfo(T t) {
-        String requestInfo = null;
-        if (t.getClass().getSimpleName().equals("Client")) {
-            requestInfo = t.toString();
-        } else if (t.getClass().getSimpleName().equals("Account")) {
-            requestInfo = t.toString();
-        }
-        return requestInfo;
+    public List <String> showUserInfo(Client client) {
+        List<String> infoList = new ArrayList<>();
+        infoList.add(client.toString());
+        return infoList;
     }
+
+//    public List<String> showCurrentAccounts(Client client) {
+//        List<String> list = new ArrayList<>();
+//        for (Account account : userDAO.showInfoAccounts(client)) {
+//            list.add(account.toString());
+//        }
+//        return list;
+//    }
+//
+//    public List<String> showHistory(Client client) {
+//        List<String> list = new ArrayList<>();
+//        for (History history : userDAO.showHistory(client)) {
+//            list.add(history.toString());
+//        }
+//        return list;
+//    }
 
     public Client getClient(String login, String password) {
         return userDAO.getClient(login, password);
@@ -69,16 +81,17 @@ public class BankService {
     public List<String> showListOfRequest() {
         List<String> list = new ArrayList<>();
         for (Account account : administratorDAO.showRequestsForAdmin()) {
-            list.add(showUserInfo(account));
+            list.add(account.toString());
         }
         return list;
     }
 
     public void confirmRequestClientID(String param) {
         int id = Integer.parseInt(param);
-        administratorDAO.confirmation(id);
-
-
+        Account account = administratorDAO.getAccount(id);
+        administratorDAO.putAccountToClient(account);
+        writeHistory(account,BankService.APPROVAL_MESSAGE);
+        administratorDAO.denyRequest(id);
     }
 
     public boolean hasID(String id) {
@@ -99,5 +112,21 @@ public class BankService {
         Date date = new Date();
         History history = new History(account.getClass().getSimpleName(), account.getMoney(), account.getId_client(), dateFormat.format(date));
         userDAO.writeHistory(history, message);
+    }
+
+    public List<String> showUserAccounts(Client client) {
+        List<String> list = new ArrayList<>();
+        for (Account account : userDAO.showInfoAccounts(client)) {
+            list.add(account.toStringForShowUser());
+        }
+        return list;
+    }
+
+    public List<String> showUserHistory(Client client) {
+        List<String> list = new ArrayList<>();
+        for (History history : userDAO.showHistory(client)) {
+            list.add(history.toString());
+        }
+        return list;
     }
 }

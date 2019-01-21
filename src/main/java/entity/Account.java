@@ -24,6 +24,12 @@ public class Account {
         this.id_client = id_client;
     }
 
+    public Account(int id, double money, String type) {
+        this.id = id;
+        this.money = money;
+        this.type = type;
+    }
+
     public double getMoney() {
         return money;
     }
@@ -63,5 +69,13 @@ public class Account {
                 ", money ----" + money +
                 "----, id of the client is " + id_client +
                 "type of request is " + type;
+    }
+
+
+    public String toStringForShowUser() {
+        return "Account: " +
+                "account number is: " + id +
+                ", money on it - " + money +
+                ", type of account: " + type;
     }
 }

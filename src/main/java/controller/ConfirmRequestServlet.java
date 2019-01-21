@@ -1,6 +1,7 @@
 package controller;
 
 import service.BankService;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,10 +23,11 @@ public class ConfirmRequestServlet extends HttpServlet {
         ServletContext servletContext = config.getServletContext();
         bankService = (BankService) servletContext.getAttribute(BANK_SERVICE);
     }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String param = req.getParameter("id");
-        if(bankService.validationID(param).size()!=0){
+        if (bankService.validationID(param).size() != 0) {
             req.setAttribute("alertList", bankService.validationID(param));
             req.getRequestDispatcher("alertIDList.jsp").forward(req, resp);
         } else if (!bankService.hasID(param)) {

@@ -116,12 +116,6 @@ public class AdministratorDAO implements IUserDAO {
         return flag;
     }
 
-    public void confirmation(int id) {
-        Account account = getAccount(id);
-        putAccountToClient(account);
-
-    }
-
     public Account getAccount(int id) {
         Account account = null;
         ResultSet rs;
@@ -152,6 +146,18 @@ public class AdministratorDAO implements IUserDAO {
             prep.setString(1, account.getType());
             prep.setDouble(2, account.getMoney());
             prep.setInt(3, account.getId_client());
+            prep.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void denyRequest(int id) {
+        try {
+            st = con.createStatement();
+            String sql = "DELETE FROM REQUEST WHERE id_request = ?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(1, id);
             prep.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

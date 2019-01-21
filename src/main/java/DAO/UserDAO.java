@@ -5,6 +5,8 @@ import entity.Client;
 import entity.History;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO implements IUserDAO {
     Connection con;
@@ -37,7 +39,7 @@ public class UserDAO implements IUserDAO {
 
     public void createNewUser(Client client) {
         try {
-            st = con.createStatement();
+            // st = con.createStatement();
             String sql = "INSERT INTO CLIENT"
                     + "(FIRSTNAME, LASTNAME, LOGIN, PASSWORD, TYPE) VALUES"
                     + "(?,?,?,?,?)";
@@ -113,4 +115,50 @@ public class UserDAO implements IUserDAO {
     }
 
 
+    public List<History> showHistory(Client client) {
+        List<History> list = new ArrayList<>();
+        History history = null;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT ACCOUNT_TYPE, MONEY, DATE, MESSAGE FROM HISTORY WHERE ID_CLIENT = ?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(1, client.getId());
+            rs = prep.executeQuery();
+            while (rs.next()) {
+                history = new History(
+                        rs.getString("account_type"),
+                        rs.getDouble("money"),
+                        rs.getString("date"),
+                        rs.getString("message"));
+                list.add(history);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Account> showInfoAccounts(Client client) {
+        List<Account> list = new ArrayList<>();
+        Account account = null;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT * FROM CURRENT_ACCOUNT WHERE id_client=?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(1, client.getId());
+            rs = prep.executeQuery();
+            while (rs.next()) {
+                account = new Account(
+                        rs.getInt("id_currentAccount"),
+                        rs.getDouble("money"),
+                        rs.getString("type"));
+                list.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

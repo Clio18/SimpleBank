@@ -5,12 +5,20 @@ public class History {
     private Double money;
     private int id_client;
     private String date;
+    private String message;
 
     public History(String account_type, Double money, int id_client, String date) {
         this.account_type = account_type;
         this.money = money;
         this.id_client = id_client;
         this.date = date;
+    }
+
+    public History(String account_type, Double money, String date, String message) {
+        this.account_type = account_type;
+        this.money = money;
+        this.date = date;
+        this.message = message;
     }
 
     public String getAccount_type() {
@@ -43,5 +51,22 @@ public class History {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity " +
+                "account creation: " + account_type +
+                ", money on account - " + money +
+                ", date of action: " + date +
+                ", message from BANK: " + message.toUpperCase();
     }
 }

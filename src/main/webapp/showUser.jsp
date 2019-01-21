@@ -19,6 +19,27 @@
   </c:forEach>
 </table>
 
+   Account information:
+              </font><br>
+
+<table border=1>
+  <c:forEach var="num" items="${accounts}">
+   <tr>
+      <td>${num}</td>
+   </tr>
+  </c:forEach>
+</table>
+
+   Activity:
+              </font><br>
+
+<table border=1>
+  <c:forEach var="num" items="${history}">
+   <tr>
+      <td>${num}</td>
+   </tr>
+  </c:forEach>
+</table>
  <p><a href="mainPage.jsp">Return</a></p>
 
 

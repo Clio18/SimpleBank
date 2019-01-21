@@ -33,9 +33,16 @@ public class ShowServlet extends HttpServlet {
             req.setAttribute("info", info);
             req.getRequestDispatcher("showAdmin.jsp").forward(req, resp);
         } else {
-            String info = bankService.showUserInfo(bankService.getClient(client.getLogin(), client.getPassword()));
+            //String info = bankService.showUserInfo(bankService.getClient(client.getLogin(), client.getPassword()));
+
+            List <String> info = bankService.showUserInfo(client);
+            List <String> accounts = bankService.showUserAccounts(client);
+            List <String> history = bankService.showUserHistory(client);
             req.setAttribute("info", info);
+            req.setAttribute("accounts", accounts);
+            req.setAttribute("history", history);
             req.getRequestDispatcher("showUser.jsp").forward(req, resp);
+
         }
     }
 }
