@@ -17,6 +17,7 @@ import java.util.List;
 public class BankService {
     public static String CURRENT_REQUEST_MESSAGE = "Current request created";
     public static String APPROVAL_MESSAGE = "Current request is approved";
+    public static String DENY_MESSAGE = "Current request was deny by Administrator";
     UserDAO userDAO = new UserDAO();
     AdministratorDAO administratorDAO = new AdministratorDAO();
     ValidatorID validatorID = new ValidatorID();
@@ -44,21 +45,6 @@ public class BankService {
         return infoList;
     }
 
-//    public List<String> showCurrentAccounts(Client client) {
-//        List<String> list = new ArrayList<>();
-//        for (Account account : userDAO.showInfoAccounts(client)) {
-//            list.add(account.toString());
-//        }
-//        return list;
-//    }
-//
-//    public List<String> showHistory(Client client) {
-//        List<String> list = new ArrayList<>();
-//        for (History history : userDAO.showHistory(client)) {
-//            list.add(history.toString());
-//        }
-//        return list;
-//    }
 
     public Client getClient(String login, String password) {
         return userDAO.getClient(login, password);
@@ -90,8 +76,6 @@ public class BankService {
         int id = Integer.parseInt(param);
         Account account = administratorDAO.getAccount(id);
         administratorDAO.putAccountToClient(account);
-        writeHistory(account,BankService.APPROVAL_MESSAGE);
-        administratorDAO.denyRequest(id);
     }
 
     public boolean hasID(String id) {
@@ -128,5 +112,13 @@ public class BankService {
             list.add(history.toString());
         }
         return list;
+    }
+
+    public void denyRequest(String param) {
+        administratorDAO.denyRequest(Integer.parseInt(param));
+    }
+
+    public Account getAccount(String param) {
+        return administratorDAO.getAccount(Integer.parseInt(param));
     }
 }

@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
-@WebServlet(name = "confirmRequestServlet", urlPatterns = "/confirm")
-public class ConfirmRequestServlet extends HttpServlet {
+@WebServlet(name = "denyRequestServlet", urlPatterns = "/deny")
+public class DenyRequestServlet extends HttpServlet {
     public static final String BANK_SERVICE = "bankService";
     private BankService bankService;
 
@@ -35,13 +34,10 @@ public class ConfirmRequestServlet extends HttpServlet {
             req.setAttribute("alertList", "ID does not exist");
             req.getRequestDispatcher("alertIDList.jsp").forward(req, resp);
         } else {
-            bankService.confirmRequestClientID(param);
             Account account = bankService.getAccount(param);
-            bankService.writeHistory(account, BankService.APPROVAL_MESSAGE);
+            bankService.writeHistory(account, BankService.DENY_MESSAGE);
             bankService.denyRequest(param);
             req.getRequestDispatcher("administrator.jsp").forward(req, resp);
         }
-
-
     }
 }
