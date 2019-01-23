@@ -8,32 +8,40 @@
         </head>
         <body>
               <font size = '4' color = 'blue'>
-       User information:
-              </font><br>
+              <center>
+       <b>User information:</b>
+              </center>
+              </font>
 
-<table border=1>
+<table border=0>
   <c:forEach var="num" items="${info}">
    <tr>
       <td>${num}</td>
    </tr>
   </c:forEach>
-</table>
+</table><br>
 
-   Account information:
-              </font><br>
+          <font size = '4' color = 'black'>
+             <center>
+   <b>Account information:</b>
+              </center>
+           </font>
 
-<table border=1>
+<table border=0>
   <c:forEach var="num" items="${accounts}">
    <tr>
       <td>${num}</td>
    </tr>
   </c:forEach>
-</table>
+</table><br>
 
-   Activity:
-              </font><br>
+   <font size = '4' color = 'black'>
+      <center>
+         <b>Activity:</b>
+      </center>
+   </font>
 
-<table border=1>
+<table border=0>
   <c:forEach var="num" items="${history}">
    <tr>
       <td>${num}</td>
