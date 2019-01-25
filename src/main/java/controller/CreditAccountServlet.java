@@ -2,6 +2,7 @@ package controller;
 
 import entity.Account;
 import entity.Client;
+import entity.CreditAccount;
 import service.BankService;
 
 import javax.servlet.ServletConfig;
@@ -29,15 +30,13 @@ public class CreditAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Client client = (Client) req.getSession().getAttribute("client");
-        String param1 = req.getParameter("select");
-        String param = req.getParameter("money");
-        System.out.println(param1);
-        System.out.println(param);
-        if (bankService.validationID(param).size() == 0) {
-            double money = Double.parseDouble(param);
-            Account account = new Account(money, client.getId());
-            bankService.putCurrentToRequest(client, account);
-            bankService.writeHistory(account, BankService.CURRENT_REQUEST_MESSAGE);
+        int duration = Integer.parseInt(req.getParameter("select"));
+        String money_param = req.getParameter("money");
+        if (bankService.validationID(money_param).size() == 0) {
+            double money = Double.parseDouble(money_param);
+            CreditAccount creditAccount = new CreditAccount(money, client.getId(), duration);
+            bankService.putCurrentToRequest(client, creditAccount);
+            bankService.writeHistory(creditAccount, BankService.CREDIT_REQUEST_MESSAGE);
             req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("current.jsp").forward(req, resp);

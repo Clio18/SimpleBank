@@ -34,9 +34,10 @@ public class DenyRequestServlet extends HttpServlet {
             req.setAttribute("alertList", "ID does not exist");
             req.getRequestDispatcher("alertIDList.jsp").forward(req, resp);
         } else {
-            Account account = bankService.getAccount(param);
+            int id = Integer.parseInt(param);
+            Account account = bankService.getAccount(id);
             bankService.writeHistory(account, BankService.DENY_MESSAGE);
-            bankService.denyRequest(param);
+            bankService.denyRequest(id);
             req.getRequestDispatcher("administrator.jsp").forward(req, resp);
         }
     }

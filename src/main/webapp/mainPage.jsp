@@ -28,7 +28,7 @@
     <ul>
         <li><a href="/show">Show all information</a></li>
         <li><a href="request.jsp">Make request for new account</a></li>
-        <li><a href="payment.jsp">Pay the bill</a></li>
+        <li><a href="payBill.jsp">Pay the bill</a></li>
         <li><a href="transfer.jsp">Money transfer</a></li>
         <li><a href="login.jsp">Exit</a></li>
 

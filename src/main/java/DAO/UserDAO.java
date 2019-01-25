@@ -2,6 +2,7 @@ package DAO;
 
 import entity.Account;
 import entity.Client;
+import entity.CreditAccount;
 import entity.History;
 
 import java.sql.*;
@@ -81,15 +82,17 @@ public class UserDAO implements IUserDAO {
     }
 
     public void makeRequest(Client client, Account account) {
+
         try {
             st = con.createStatement();
             String sql = "INSERT INTO REQUEST"
-                    + "(MONEY, ID_CLIENT, TYPE) VALUES"
-                    + "(?,?,?)";
+                    + "(MONEY, ID_CLIENT, TYPE, DURATION) VALUES"
+                    + "(?,?,?,?)";
             PreparedStatement prep = con.prepareStatement(sql);
             prep.setDouble(1, account.getMoney());
             prep.setInt(2, client.getId());
             prep.setString(3, account.getClass().getSimpleName());
+            prep.setInt(4, account.getDuration());
             prep.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,6 +158,33 @@ public class UserDAO implements IUserDAO {
                         rs.getDouble("money"),
                         rs.getString("type"));
                 list.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<CreditAccount> showInfoCredits(Client client) {
+
+        List<CreditAccount> list = new ArrayList<>();
+        Account account = null;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT * FROM CREDIT_ACCOUNT WHERE id_client=?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(1, client.getId());
+            rs = prep.executeQuery();
+            while (rs.next()) {
+                account = new CreditAccount(
+                        rs.getInt("id_credit"),
+                        rs.getString("type"),
+                        rs.getDouble("money"),
+                        rs.getInt("duration"),
+                        rs.getDouble("sum_rate"),
+                        rs.getDouble("withdraw"));
+                list.add((CreditAccount) account);
             }
         } catch (SQLException e) {
             e.printStackTrace();

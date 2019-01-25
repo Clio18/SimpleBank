@@ -4,6 +4,7 @@ import DAO.AdministratorDAO;
 import DAO.UserDAO;
 import entity.Account;
 import entity.Client;
+import entity.CreditAccount;
 import entity.History;
 import util.Validator;
 import util.ValidatorID;
@@ -16,8 +17,12 @@ import java.util.List;
 
 public class BankService {
     public static String CURRENT_REQUEST_MESSAGE = "Current request created";
+    public static String CREDIT_REQUEST_MESSAGE = "Credit request created";
     public static String APPROVAL_MESSAGE = "Current request is approved";
+    public static String APPROVAL_CREDIT_MESSAGE = "Credit request is approved";
     public static String DENY_MESSAGE = "Current request was deny by Administrator";
+    public static String DENY_CREDIT_MESSAGE = "Credit request was deny by Administrator";
+    public static double CREDIT_RATE = 5.0;
     UserDAO userDAO = new UserDAO();
     AdministratorDAO administratorDAO = new AdministratorDAO();
     ValidatorID validatorID = new ValidatorID();
@@ -39,7 +44,7 @@ public class BankService {
         return list;
     }
 
-    public List <String> showUserInfo(Client client) {
+    public List<String> showUserInfo(Client client) {
         List<String> infoList = new ArrayList<>();
         infoList.add(client.toString());
         return infoList;
@@ -72,10 +77,18 @@ public class BankService {
         return list;
     }
 
-    public void confirmRequestClientID(String param) {
-        int id = Integer.parseInt(param);
-        Account account = administratorDAO.getAccount(id);
-        administratorDAO.putAccountToClient(account);
+    public void confirmRequestClientID(Account account) {
+        if (account.getType().equals("Account")) {
+            administratorDAO.putAccountToClient(account);
+        } else if (account.getType().equals("CreditAccount")) {
+            double withdraw = getWithdraw(account.getMoney());
+            double sum_rate = withdraw - account.getMoney();
+            administratorDAO.putCreditToClient(account, sum_rate, withdraw);
+        }
+    }
+
+    public double getWithdraw(double money) {
+        return money + (money * BankService.CREDIT_RATE / 100);
     }
 
     public boolean hasID(String id) {
@@ -99,11 +112,14 @@ public class BankService {
     }
 
     public List<String> showUserAccounts(Client client) {
-        List<String> list = new ArrayList<>();
+        List<String> listAccount = new ArrayList<>();
         for (Account account : userDAO.showInfoAccounts(client)) {
-            list.add(account.toStringForShowUser());
+            listAccount.add(account.toStringForShowUser());
         }
-        return list;
+        for (CreditAccount creditAccount : userDAO.showInfoCredits(client)) {
+            listAccount.add(creditAccount.toString());
+        }
+        return listAccount;
     }
 
     public List<String> showUserHistory(Client client) {
@@ -114,11 +130,12 @@ public class BankService {
         return list;
     }
 
-    public void denyRequest(String param) {
-        administratorDAO.denyRequest(Integer.parseInt(param));
+    public void denyRequest(int id) {
+        administratorDAO.denyRequest(id);
     }
 
-    public Account getAccount(String param) {
-        return administratorDAO.getAccount(Integer.parseInt(param));
+
+    public Account getAccount(int id) {
+        return administratorDAO.getAccount(id);
     }
 }

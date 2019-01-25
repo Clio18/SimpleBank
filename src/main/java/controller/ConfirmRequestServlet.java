@@ -35,10 +35,11 @@ public class ConfirmRequestServlet extends HttpServlet {
             req.setAttribute("alertList", "ID does not exist");
             req.getRequestDispatcher("alertIDList.jsp").forward(req, resp);
         } else {
-            bankService.confirmRequestClientID(param);
-            Account account = bankService.getAccount(param);
-            bankService.writeHistory(account, BankService.APPROVAL_MESSAGE);
-            bankService.denyRequest(param);
+            int id = Integer.parseInt(param);
+            Account account = bankService.getAccount(id);
+            bankService.confirmRequestClientID(account);
+            bankService.writeHistory(account, BankService.APPROVAL_CREDIT_MESSAGE);
+            bankService.denyRequest(id);
             req.getRequestDispatcher("administrator.jsp").forward(req, resp);
         }
 

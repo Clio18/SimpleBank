@@ -5,12 +5,14 @@ public class Account {
     private double money;
     private int id_client;
     private String type;
+    private int duration;
 
-    public Account(int id, double money, int id_client, String type) {
+    public Account(int id, double money, int id_client, String type, int duration) {
         this.id = id;
         this.money = money;
         this.id_client = id_client;
         this.type = type;
+        this.duration=duration;
     }
 
     public Account(double money, int id_client, String type) {
@@ -62,13 +64,22 @@ public class Account {
         this.type = type;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         return "Account: " +
                 "ID is " + id +
                 ", money ----" + money +
                 "----, id of the client is " + id_client +
-                "type of request is " + type;
+                " type of request is " + type +
+                " duration is " + duration;
     }
 
 
