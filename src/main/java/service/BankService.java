@@ -22,7 +22,10 @@ public class BankService {
     public static String APPROVAL_CREDIT_MESSAGE = "Credit request is approved";
     public static String DENY_MESSAGE = "Current request was deny by Administrator";
     public static String DENY_CREDIT_MESSAGE = "Credit request was deny by Administrator";
+    public static String PAYMENT = "Your payment was done. Money for payment is ";
+    public static String CREDIT_PAYMENT = "Your credit payment was done";
     public static double CREDIT_RATE = 5.0;
+
     UserDAO userDAO = new UserDAO();
     AdministratorDAO administratorDAO = new AdministratorDAO();
     ValidatorID validatorID = new ValidatorID();
@@ -50,7 +53,6 @@ public class BankService {
         return infoList;
     }
 
-
     public Client getClient(String login, String password) {
         return userDAO.getClient(login, password);
     }
@@ -67,7 +69,6 @@ public class BankService {
     public void putCurrentToRequest(Client client, Account account) {
         userDAO.makeRequest(client, account);
     }
-
 
     public List<String> showListOfRequest() {
         List<String> list = new ArrayList<>();
@@ -134,8 +135,43 @@ public class BankService {
         administratorDAO.denyRequest(id);
     }
 
-
     public Account getAccount(int id) {
         return administratorDAO.getAccount(id);
+    }
+
+    public boolean hasIDAccount(String current_id) {
+        int request_id = Integer.parseInt(current_id);
+        return userDAO.hasIDAccount(request_id);
+    }
+
+    public boolean hasIDCredit(String desire_id) {
+        int request_id = Integer.parseInt(desire_id);
+        return userDAO.hasIDCredit(request_id);
+    }
+
+    public Account getCurrentAccount(int current_id) {
+        return userDAO.getCurrentAccount(current_id);
+    }
+
+    public String changeCurrent(int id_curr, int mon) {
+        Account account = userDAO.getCurrentAccount(id_curr);
+        String message = null;
+        if (account.getMoney()<mon){
+            message = "The sum of money is too large!";
+        } else {
+            userDAO.changeCurrent(id_curr, mon);
+            message = "Success operation";
+        }
+        return message;
+    }
+
+    public CreditAccount getCreditAccount(int id_cre) {
+
+        return userDAO.getCreditAccount(id_cre);
+    }
+
+    public void changeCredit(int desire_id, int mon) {
+
+        userDAO.changeCredit(desire_id, mon);
     }
 }

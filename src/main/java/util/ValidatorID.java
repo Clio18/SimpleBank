@@ -1,7 +1,5 @@
 package util;
 
-import service.BankService;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +9,10 @@ public class ValidatorID {
     public List<String> validation(String id) {
         List<String> alertList = new ArrayList<>();
         if (id.isEmpty()) {
-            alertList.add("Enter the ID please!");
+            alertList.add("Enter the integer number please!");
         }
         if (!id.matches(ID)) {
-            alertList.add("Wrong ID!");
+            alertList.add("Wrong number!Its must be integer number");
         }
         return alertList;
     }

@@ -21,13 +21,13 @@
      <table>
         <tr><td>Current account number</td><td><input type='integer' name='current_id' size='15'></td></tr>
         <tr><td>Number of desire account</td><td><input type='integer' name='desire_id' size='15'></td></tr>
-        <tr><td>Money</td><td><input type='double' name='money' size='15'></td></tr>
+        <tr><td>Money</td><td><input type='integer' name='money' size='15'></td></tr>
      </table>
      <button type="submit">
         Pay
      </button>
-
 </form>
+
        </font><br>
           <p><a href="mainPage.jsp">Return</a></p>
 </body>

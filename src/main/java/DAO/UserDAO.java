@@ -82,7 +82,6 @@ public class UserDAO implements IUserDAO {
     }
 
     public void makeRequest(Client client, Account account) {
-
         try {
             st = con.createStatement();
             String sql = "INSERT INTO REQUEST"
@@ -116,7 +115,6 @@ public class UserDAO implements IUserDAO {
             e.printStackTrace();
         }
     }
-
 
     public List<History> showHistory(Client client) {
         List<History> list = new ArrayList<>();
@@ -154,7 +152,7 @@ public class UserDAO implements IUserDAO {
             rs = prep.executeQuery();
             while (rs.next()) {
                 account = new Account(
-                        rs.getInt("id_currentAccount"),
+                        rs.getInt("id_current"),
                         rs.getDouble("money"),
                         rs.getString("type"));
                 list.add(account);
@@ -166,7 +164,6 @@ public class UserDAO implements IUserDAO {
     }
 
     public List<CreditAccount> showInfoCredits(Client client) {
-
         List<CreditAccount> list = new ArrayList<>();
         Account account = null;
         ResultSet rs;
@@ -190,5 +187,113 @@ public class UserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public boolean hasIDAccount(int id) {
+        boolean flag = false;
+        ResultSet rs = null;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT * FROM CURRENT_ACCOUNT WHERE id_current = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            flag = rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public boolean hasIDCredit(int id) {
+        boolean flag = false;
+        ResultSet rs = null;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT * FROM CREDIT_ACCOUNT WHERE id_credit = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            flag = rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    public Account getCurrentAccount(int current_id) {
+        Account account = null;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT * FROM CURRENT_ACCOUNT WHERE id_current = ?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(1, current_id);
+
+            rs = prep.executeQuery();
+            while (rs.next()) {
+                account = new Account(
+                        rs.getDouble("money"),
+                        rs.getInt("id_client"),
+                        rs.getString("type"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+
+    public CreditAccount getCreditAccount(int current_id) {
+        CreditAccount creditAccount = null;
+        ResultSet rs;
+        try {
+            st = con.createStatement();
+            String sql = "SELECT * FROM CREDIT_ACCOUNT WHERE id_credit = ?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(1, current_id);
+            rs = prep.executeQuery();
+            while (rs.next()) {
+                creditAccount = new CreditAccount(
+                        rs.getInt("id_credit"),
+                        rs.getString("type"),
+                        rs.getDouble("money"),
+                        rs.getInt("duration"),
+                        rs.getDouble("sum_rate"),
+                        rs.getDouble("withdraw"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return creditAccount;
+    }
+
+    public void changeCurrent(int id_curr, int mon) {
+        Account account = getCurrentAccount(id_curr);
+        double new_balance = account.getMoney()-mon;
+        try {
+            st = con.createStatement();
+            String sql = "UPDATE CURRENT_ACCOUNT SET money=? WHERE id_current=?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(2, id_curr);
+            prep.setDouble(1, new_balance);
+            prep.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeCredit(int desire_id, int mon) {
+        CreditAccount account = getCreditAccount(desire_id);
+        double new_balance = account.getWithdraw()- mon;
+        try {
+            st = con.createStatement();
+            String sql = "UPDATE CREDIT_ACCOUNT SET withdraw=? WHERE id_credit=?";
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.setInt(2, desire_id);
+            prep.setDouble(1, new_balance);
+            prep.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
