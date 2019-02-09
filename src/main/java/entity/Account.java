@@ -5,7 +5,20 @@ public class Account {
     private double money;
     private int id_client;
     private String type;
+    private double sumRate;
     private int duration;
+    private double withdraw;
+
+    //wrong constructor
+    public Account(int id, double money, int id_client, String type, double sumRate, int duration, double withdraw) {
+        this.id = id;
+        this.money = money;
+        this.id_client = id_client;
+        this.type = type;
+        this.sumRate = sumRate;
+        this.duration = duration;
+        this.withdraw = withdraw;
+    }
 
     public Account(int id, double money, int id_client, String type, int duration) {
         this.id = id;

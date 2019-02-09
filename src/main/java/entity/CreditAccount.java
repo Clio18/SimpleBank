@@ -2,7 +2,7 @@ package entity;
 
 public class CreditAccount extends Account {
     private double withdraw;
-    private double sum_rate;
+    private double sumRate;
     private int duration;
 
     public CreditAccount(int id, double money, int id_client, String type, int duration) {
@@ -17,13 +17,12 @@ public class CreditAccount extends Account {
     public CreditAccount(double money, int id_client, String type, int duration) {
         super(money, id_client, type);
         this.duration = duration;
-
     }
 
-    public CreditAccount(int id, String type, double money, int duration, double sum_rate, double withdraw) {
+    public CreditAccount(int id, double money, String type, double sumRate, int duration, double withdraw) {
         super(id, money, type);
         this.duration = duration;
-        this.sum_rate = sum_rate;
+        this.sumRate = sumRate;
         this.withdraw = withdraw;
     }
 
@@ -44,12 +43,12 @@ public class CreditAccount extends Account {
         this.duration = duration;
     }
 
-    public double getSum_rate() {
-        return sum_rate;
+    public double getSumRate() {
+        return sumRate;
     }
 
-    public void setSum_rate(double sum_rate) {
-        this.sum_rate = sum_rate;
+    public void setSumRate(double sumRate) {
+        this.sumRate = sumRate;
     }
 
     @Override
@@ -58,7 +57,7 @@ public class CreditAccount extends Account {
                 "account number is: " + this.getId() +
                 " withdraw of credit - " + withdraw +
                 ", type is " + this.getType() +
-                ", sum_rate is " + sum_rate +
+                ", sumRate is " + sumRate +
                 ", duration is " + duration;
     }
 }

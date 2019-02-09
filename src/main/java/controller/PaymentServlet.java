@@ -1,7 +1,5 @@
 package controller;
 
-import entity.Account;
-import entity.CreditAccount;
 import service.BankService;
 
 import javax.servlet.ServletConfig;
@@ -34,7 +32,6 @@ public class PaymentServlet extends HttpServlet {
         String money = req.getParameter("money");
 
 
-
         if (bankService.validationID(current_id).size() != 0 | bankService.validationID(desire_id).size() != 0 | bankService.validationID(money).size() != 0) {
             req.setAttribute("alertList", bankService.validationID(current_id));
             req.setAttribute("alertList", bankService.validationID(desire_id));
@@ -47,12 +44,8 @@ public class PaymentServlet extends HttpServlet {
             int id_curr = Integer.parseInt(current_id);
             int id_cre = Integer.parseInt(desire_id);
             int mon = Integer.parseInt(money);
-
-            String alert = bankService.changeCurrent(id_curr, mon);
-            System.out.println(alert);
-            req.setAttribute("alert", alert);
-            req.getRequestDispatcher("alertIDListUser.jsp").forward(req,resp);
-
+            req.setAttribute("alertList", bankService.changeCurrent(id_curr, mon));
+            req.getRequestDispatcher("alertIDListUser.jsp").forward(req, resp);
 
 
 //            bankService.changeCredit(id_cre, mon);

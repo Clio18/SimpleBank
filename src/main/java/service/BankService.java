@@ -39,17 +39,17 @@ public class BankService {
         userDAO.createNewUser(client);
     }
 
-    public List<String> showInfo() {
-        List<String> list = new ArrayList<>();
+    public List<Client> showInfo() {
+        List<Client> list = new ArrayList<>();
         for (Client client : administratorDAO.showInfoForAdmin()) {
-            list.add(client.toString());
+            list.add(client);
         }
         return list;
     }
 
-    public List<String> showUserInfo(Client client) {
-        List<String> infoList = new ArrayList<>();
-        infoList.add(client.toString());
+    public List<Client> showUserInfo(Client client) {
+        List<Client> infoList = new ArrayList<>();
+        infoList.add(client);
         return infoList;
     }
 
@@ -112,13 +112,18 @@ public class BankService {
         userDAO.writeHistory(history, message);
     }
 
-    public List<String> showUserAccounts(Client client) {
-        List<String> listAccount = new ArrayList<>();
+    public List<Account> showUserAccounts(Client client) {
+        List<Account> listAccount = new ArrayList<>();
         for (Account account : userDAO.showInfoAccounts(client)) {
-            listAccount.add(account.toStringForShowUser());
+            listAccount.add(account);
         }
+        return listAccount;
+    }
+
+    public List<CreditAccount> showUserCreditAccounts(Client client) {
+        List<CreditAccount> listAccount = new ArrayList<>();
         for (CreditAccount creditAccount : userDAO.showInfoCredits(client)) {
-            listAccount.add(creditAccount.toString());
+            listAccount.add(creditAccount);
         }
         return listAccount;
     }
@@ -153,25 +158,27 @@ public class BankService {
         return userDAO.getCurrentAccount(current_id);
     }
 
-    public String changeCurrent(int id_curr, int mon) {
-        Account account = userDAO.getCurrentAccount(id_curr);
-        String message = null;
-        if (account.getMoney()<mon){
-            message = "The sum of money is too large!";
+    public List<String> changeCurrent(int id_curr, int mon) {
+        Account account = getCurrentAccount(id_curr);
+        List<String> message = new ArrayList<>();
+
+        System.out.println(account.getMoney());
+        System.out.println(mon);
+
+        if (account.getMoney() < mon) {
+            message.add("The sum of money is too large!");
         } else {
-            userDAO.changeCurrent(id_curr, mon);
-            message = "Success operation";
+            //userDAO.changeCurrent(id_curr, mon);
+            message.add("Success operation");
         }
         return message;
     }
 
     public CreditAccount getCreditAccount(int id_cre) {
-
         return userDAO.getCreditAccount(id_cre);
     }
 
     public void changeCredit(int desire_id, int mon) {
-
         userDAO.changeCredit(desire_id, mon);
     }
 }

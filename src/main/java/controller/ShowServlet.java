@@ -1,6 +1,8 @@
 package controller;
 
+import entity.Account;
 import entity.Client;
+import entity.CreditAccount;
 import service.BankService;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -29,17 +31,20 @@ public class ShowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Client client = (Client) req.getSession().getAttribute("client");
         if (client.getType().equals(Client.ADMIN)) {
-            List<String> info = bankService.showInfo();
+            List<Client> info = bankService.showInfo();
             req.setAttribute("info", info);
             req.getRequestDispatcher("showAdmin.jsp").forward(req, resp);
         } else {
             //String info = bankService.showUserInfo(bankService.getClient(client.getLogin(), client.getPassword()));
 
-            List <String> info = bankService.showUserInfo(client);
-            List <String> accounts = bankService.showUserAccounts(client);
+            List <Client> info = bankService.showUserInfo(client);
+            List <Account> accounts = bankService.showUserAccounts(client);
+            List <CreditAccount> creditAccounts = bankService.showUserCreditAccounts(client);
             List <String> history = bankService.showUserHistory(client);
+
             req.setAttribute("info", info);
             req.setAttribute("accounts", accounts);
+            req.setAttribute("creditAccounts", creditAccounts);
             req.setAttribute("history", history);
             req.getRequestDispatcher("showUser.jsp").forward(req, resp);
 

@@ -176,10 +176,10 @@ public class UserDAO implements IUserDAO {
             while (rs.next()) {
                 account = new CreditAccount(
                         rs.getInt("id_credit"),
-                        rs.getString("type"),
                         rs.getDouble("money"),
-                        rs.getInt("duration"),
+                        rs.getString("type"),
                         rs.getDouble("sum_rate"),
+                        rs.getInt("duration"),
                         rs.getDouble("withdraw"));
                 list.add((CreditAccount) account);
             }
@@ -255,10 +255,10 @@ public class UserDAO implements IUserDAO {
             while (rs.next()) {
                 creditAccount = new CreditAccount(
                         rs.getInt("id_credit"),
-                        rs.getString("type"),
                         rs.getDouble("money"),
-                        rs.getInt("duration"),
+                        rs.getString("type"),
                         rs.getDouble("sum_rate"),
+                        rs.getInt("duration"),
                         rs.getDouble("withdraw"));
             }
         } catch (SQLException e) {
@@ -269,7 +269,7 @@ public class UserDAO implements IUserDAO {
 
     public void changeCurrent(int id_curr, int mon) {
         Account account = getCurrentAccount(id_curr);
-        double new_balance = account.getMoney()-mon;
+        double new_balance = account.getMoney() - mon;
         try {
             st = con.createStatement();
             String sql = "UPDATE CURRENT_ACCOUNT SET money=? WHERE id_current=?";
@@ -284,7 +284,7 @@ public class UserDAO implements IUserDAO {
 
     public void changeCredit(int desire_id, int mon) {
         CreditAccount account = getCreditAccount(desire_id);
-        double new_balance = account.getWithdraw()- mon;
+        double new_balance = account.getWithdraw() - mon;
         try {
             st = con.createStatement();
             String sql = "UPDATE CREDIT_ACCOUNT SET withdraw=? WHERE id_credit=?";
