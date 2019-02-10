@@ -70,10 +70,10 @@ public class BankService {
         userDAO.makeRequest(client, account);
     }
 
-    public List<String> showListOfRequest() {
-        List<String> list = new ArrayList<>();
+    public List<Account> showListOfRequest() {
+        List<Account> list = new ArrayList<>();
         for (Account account : administratorDAO.showRequestsForAdmin()) {
-            list.add(account.toString());
+            list.add(account);
         }
         return list;
     }
@@ -128,10 +128,10 @@ public class BankService {
         return listAccount;
     }
 
-    public List<String> showUserHistory(Client client) {
-        List<String> list = new ArrayList<>();
+    public List<History> showUserHistory(Client client) {
+        List<History> list = new ArrayList<>();
         for (History history : userDAO.showHistory(client)) {
-            list.add(history.toString());
+            list.add(history);
         }
         return list;
     }

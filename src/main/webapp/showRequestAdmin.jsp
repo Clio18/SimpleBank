@@ -17,31 +17,29 @@
               <title>Show Admin Page </title>
         </head>
         <body>
-              <font size = '4' color = 'blue'>
-       Users information:
-              </font><br><br>
+              <font size = '4' color = 'blue'><center><b>
+       List of requests:
+              </b></center></font><br>
 
               <a href="administrator.jsp" class="btn btn-primary" role="button">Return</a><br><br>
 
 <div class="p-3 mb-2 bg-danger text-white">
-<table style="width:100%">
+<table style="width:60%">
  <tr>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th>Login</th>
-    <th>Password</th>
+    <th>Account id</th>
+    <th>Money</th>
+    <th>Client id</th>
     <th>Type</th>
-    <th>Id</th>
-  </tr>
+    <th>Duration</th>
+ </tr>
  <c:forEach var="num" items="${info}">
    <tr>
-    <td>${num.name}</td>
-    <td>${num.lastName}</td>
-    <td>${num.login}</td>
-    <td>${num.password}</td>
-    <td>${num.type}</td>
-    <td>${num.id}</td>
-  </tr>
+        <td>${num.id}</td>
+        <td>${num.money}</td>
+        <td>${num.id_client}</td>
+        <td>${num.type}</td>
+        <td>${num.duration}</td>
+   </tr>
   </c:forEach>
 </table><br>
 </div><br>

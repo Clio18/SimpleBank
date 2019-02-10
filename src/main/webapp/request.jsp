@@ -1,3 +1,13 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap-theme.min.css" integrity="sha384-jzngWsPS6op3fgRCDTESqrEJwRKck+CILhJVO5VvaAZCq8JYf8HsR/HPpBOOPZfR" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js" integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw" crossorigin="anonymous"></script>
+
+
 <%@page contentType="text/html" pageEncoding = "UTF-8"%>
        <!DOCTYPE html>
        <html>
@@ -30,9 +40,10 @@
       <ul>
         <li><a href="current.jsp">Create current account</a></li>
         <li><a href="credit.jsp">Take a credit</a></li>
-        <li><a href="deposit.jsp">Put a deposit</a></li>
+
 
     </ul>
+    <a href="mainPage.jsp" class="btn btn-primary" role="button">Return</a>
 
        </body>
        </html>

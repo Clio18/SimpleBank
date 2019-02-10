@@ -21,28 +21,32 @@
                </style>
         </head>
         <body>
+<div class="container" style="background-color: #cdd6e9">
+        <form method = 'get'>
+           <font size = '3' color = 'black'>
+            <em><b>
+               <%=request.getSession().getAttribute("username").toString()%>
+           </b></em>
+           </font>
+        </form>
+
         <div class="text">
-              <font size = '5' color = 'green'>
+              <font size = '5' color = 'green'><b>
                USER PAGES
-              </font><br>
+             </b></font><br>
+
               <font size = '4' color = 'black'>
        Make a chose:
                </font><br>
         </div>
-
-          <form method = 'get'>
-          <name='username'>
-          <%=request.getSession().getAttribute("username").toString()%>
-          </form>
-
     <ul>
-        <li><a href="/show">Show all information</a></li>
-        <li><a href="request.jsp">Make request for new account</a></li>
-        <li><a href="payBill.jsp">Pay the bill</a></li>
-        <li><a href="transfer.jsp">Money transfer</a></li>
-        <li><a href="login.jsp">Exit</a></li>
+        <li><a href="/show"><font size = '3' color = 'black'>Show all information</font></a></li>
+        <li><a href="request.jsp"><font size = '3' color = 'black'>Make request for new account</font></a></li>
+        <li><a href="payBill.jsp"><font size = '3' color = 'black'>Pay the bill</font></a></li>
+
+        <li><a href="login.jsp"><font size = '3' color = 'black'>Exit</font></a></li>
 
     </ul>
-
+</div>
        </body>
        </html>

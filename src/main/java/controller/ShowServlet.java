@@ -3,6 +3,7 @@ package controller;
 import entity.Account;
 import entity.Client;
 import entity.CreditAccount;
+import entity.History;
 import service.BankService;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -40,7 +41,7 @@ public class ShowServlet extends HttpServlet {
             List <Client> info = bankService.showUserInfo(client);
             List <Account> accounts = bankService.showUserAccounts(client);
             List <CreditAccount> creditAccounts = bankService.showUserCreditAccounts(client);
-            List <String> history = bankService.showUserHistory(client);
+            List <History> history = bankService.showUserHistory(client);
 
             req.setAttribute("info", info);
             req.setAttribute("accounts", accounts);

@@ -18,21 +18,23 @@
               </style>
         </head>
         <body>
+               <div class="container" style="background-color: 	#d0c0ad">
                <div class="text">
-                            <font size = '5' color = 'red'>
+                            <font size = '5' color = 'red'><b>
                              ADMINISTRATOR PAGES
-                            </font><br>
+                            </b></font><br>
                             <font size = '4' color = 'black'>
                      Make a chose:
                              </font><br>
                 </div>
     <ul>
-        <li><a href="/show">Show all users</a></li>
-        <li><a href="changeType.jsp">Change type</a></li>
-        <li><a href="/showRequest">Show all requests</a></li>
-        <li><a href="requestOperation.jsp">Request operation</a></li>
-        <li><a href="login.jsp">Exit</a></li>
 
+        <li><a href="/show"><font size = '3' color = 'black'>Show all users</font></a></li>
+        <li><a href="changeType.jsp"><font size = '3' color = 'black'>Change type</font></a></li>
+        <li><a href="/showRequest"><font size = '3' color = 'black'>Show all requests</font></a></li>
+        <li><a href="requestOperation.jsp"><font size = '3' color = 'black'>Request operation</font></a></li>
+        <li><a href="login.jsp"><font size = '3' color = 'black'>Exit</font></a></li>
     </ul>
+    </div>
        </body>
        </html>

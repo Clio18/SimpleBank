@@ -13,7 +13,7 @@ public class History {
         this.id_client = id_client;
         this.date = date;
     }
-
+//desire constructor
     public History(String account_type, Double money, String date, String message) {
         this.account_type = account_type;
         this.money = money;

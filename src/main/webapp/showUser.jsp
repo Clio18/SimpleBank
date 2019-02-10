@@ -16,10 +16,12 @@
               <title>Show User Page </title>
         </head>
         <body>
- <p><a href="mainPage.jsp">Return</a></p><br>
 
 
-              <font size = '4' color = 'green'>
+ <a href="mainPage.jsp" class="btn btn-primary" role="button">Return</a><br><br>
+
+<div class="p-3 mb-2 bg-info text-white">
+              <font size = '4' color = 'RoyalBlue'>
                  <center>
                    <b>User information:</b>
                  </center>
@@ -44,10 +46,11 @@
                  </tr>
                  </c:forEach>
                </table><br>
+</div>
 
 <div class="row">
           <div class="col-xs-6">
-              <font size = '4' color = 'orange'>
+              <font size = '4' color = 'RoyalBlue'>
                  <center>
                    <b>Account information:</b>
                  </center>
@@ -57,25 +60,19 @@
                    <th>Number</th>
                    <th>Money</th>
                    <th>Type</th>
-                   <th>SumRate</th>
-                   <th>Duration</th>
-                   <th>Withdraw</th>
                 </tr>
                 <c:forEach var="nu" items="${accounts}">
                   <tr>
                    <td>${nu.id}</td>
                    <td>${nu.money}</td>
                    <td>${nu.type}</td>
-                   <td>${null}</td>
-                   <td>${nu.duration}</td>
-                   <td>${null}</td>
-                 </tr>
+                </tr>
                  </c:forEach>
              </table><br>
           </div>
 
           <div class="col-xs-6">
-              <font size = '4' color = 'red'>
+              <font size = '4' color = 'RoyalBlue'>
                  <center>
                     <b>Credit Account information:</b>
                  </center>
@@ -102,18 +99,31 @@
                            </table><br>
           </div>
         </div>
-
-         <font size = '4' color = 'pink'>
+<div class="p-3 mb-2 bg-success text-white">
+         <font size = '4' color = 'RoyalBlue'>
                  <center>
                    <b>Activity:</b>
                  </center>
               </font>
-               <table border=0>
-                 <c:forEach var="num" items="${history}">
-                   <tr>
-                      <td>${num}</td>
-                   </tr>
-                 </c:forEach>
-               </table>
+
+               <table style="width:90%">
+                              <tr>
+                                 <th>Account type</th>
+                                 <th>Money</th>
+                                 <th>Date</th>
+                                 <th>Message</th>
+                              </tr>
+                              <c:forEach var="num" items="${history}">
+                                <tr>
+                                 <td>${num.account_type}</td>
+                                 <td>${num.money}</td>
+                                 <td>${num.date}</td>
+                                 <td>${num.message}</td>
+                                </tr>
+                               </c:forEach>
+                             </table><br>
+</div>
+
+ <a href="mainPage.jsp" class="btn btn-primary" role="button">Return</a><br><br>
        </body>
        </html>

@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Account;
 import entity.Client;
 import service.BankService;
 
@@ -28,9 +29,9 @@ public class ShowRequestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> info = bankService.showListOfRequest();
+        List<Account> info = bankService.showListOfRequest();
         req.setAttribute("info", info);
-        req.getRequestDispatcher("showAdmin.jsp").forward(req, resp);
+        req.getRequestDispatcher("showRequestAdmin.jsp").forward(req, resp);
     }
 
 }
